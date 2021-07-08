@@ -8,13 +8,12 @@ public class FrontSystem {
 
 
     public synchronized void addRequest(Request request) throws InterruptedException {
-        while (queueRequest.size()==2){
+        while (queueRequest.size() == 2) {
             wait();
         }
+
         queueRequest.add(request);
-        System.out.println("заявка "+ request + "обрабатывается банком");
-        notifyAll();
-//        queueRequest.add(request);
+        System.out.println("Обрабатывается банком заявка " + request);
     }
 
     public synchronized Request getRequest() {
@@ -25,10 +24,10 @@ public class FrontSystem {
                 e.printStackTrace();
             }
         }
+        notifyAll();
         Request req = queueRequest.poll();
         return req;
-//        Request req = queueRequest.poll();
-//        return req;
+
     }
 
 }

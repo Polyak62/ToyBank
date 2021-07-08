@@ -7,21 +7,29 @@ public class BackSystem {
         this.balanceBank = balanceBank;
     }
 
-    private void increaseBalance(int money){
-        balanceBank+=money;
-    }
-    private void reduceBalance(int money){
-        balanceBank-=money;
+    public int getBalanceBank() {
+        return balanceBank;
     }
 
-    public synchronized void handlerRequest( Request request){
-        if(request.getTypeRequest() == TypeRequest.CREDIT){
-            reduceBalance(request.getMoney());
-            System.out.println("Заявка на кредит" + request + " обработана банком");
+    private void increaseBalance(int money) {
+        balanceBank += money;
+    }
 
+    private void reduceBalance(int money) {
+        balanceBank -= money;
+    }
+
+    public synchronized void handlerRequest(Request request) {
+        if (balanceBank > 0) {
+            if (request.getTypeRequest() == TypeRequest.CREDIT) {
+                reduceBalance(request.getMoney());
+                System.out.println("Заявка на кредит" + request + " обработана банком, баланс банка: "+getBalanceBank());
+            } else {
+                increaseBalance(request.getMoney());
+                System.out.println("Заявка на погашение кредита" + request + " обработана банком, баланс банка: "+ getBalanceBank());
+            }
         }else{
-            increaseBalance(request.getMoney());
-            System.out.println("Заявка на погашение кредита" + request + " обработана банком");
+            System.out.println("В банке денег нет");
         }
     }
 }

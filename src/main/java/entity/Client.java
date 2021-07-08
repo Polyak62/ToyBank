@@ -18,19 +18,13 @@ public class Client extends Thread {
         return clientName;
     }
 
-    public int getMoney() {
-        return money;
-    }
-
-    public TypeRequest getTypeRequest() {
-        return typeRequest;
-    }
-
 
     public void run() {
-        System.out.println("Заявка " + request.toString() + " отправлена банку");
+        System.out.println("Клиент "+getClientName() + " подал заявку "+ request.toString());
         try {
             frontSystem.addRequest(request);
+            System.out.println(Thread.currentThread().getName() + " Завершал свою работу");
+
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
